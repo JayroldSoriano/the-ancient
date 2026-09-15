@@ -7,7 +7,7 @@ Created by [Jayrold Christian Soriano](https://github.com/JayroldSoriano).
 ```bash
 cp apps/web/.env.example apps/web/.env.local
 # NEXT_PUBLIC_API_URL=http://localhost:2024
-# NEXT_PUBLIC_ASSISTANT_ID=beens
+# NEXT_PUBLIC_ASSISTANT_ID=ancient
 
 cd apps/web
 npm install

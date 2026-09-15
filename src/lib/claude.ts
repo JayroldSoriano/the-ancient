@@ -35,12 +35,12 @@ function truthy(value: string | undefined): boolean {
  *
  * `options.env` replaces the subprocess environment entirely, so this always
  * spreads `process.env`. Console API keys take precedence over a Pro/Max login;
- * unless `BEENS_USE_API_KEY` is set, strip them so the Agent SDK bills the
+ * unless `ANCIENT_USE_API_KEY` is set, strip them so the Agent SDK bills the
  * Claude subscription (`claude login`).
  */
 function agentEnv(): NodeJS.ProcessEnv {
   const env: NodeJS.ProcessEnv = { ...process.env };
-  if (!truthy(env.BEENS_USE_API_KEY)) {
+  if (!truthy(env.ANCIENT_USE_API_KEY)) {
     delete env.ANTHROPIC_API_KEY;
     delete env.ANTHROPIC_AUTH_TOKEN;
     delete env.ANTHROPIC_WORKSPACE_ID;

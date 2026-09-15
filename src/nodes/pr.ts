@@ -44,8 +44,8 @@ export async function prNode(state: GraphStateT) {
       "_Opened only after the Ancient called the push._",
     ].join("\n");
 
-    // Draft by default. Flip BEENS_PR_DRAFT=0 once you trust the pipeline.
-    const draft = process.env.BEENS_PR_DRAFT !== "0" ? "--draft " : "";
+    // Draft by default. Flip ANCIENT_PR_DRAFT=0 once you trust the pipeline.
+    const draft = process.env.ANCIENT_PR_DRAFT !== "0" ? "--draft " : "";
     utter({
       hero: "pr",
       kind: "status",

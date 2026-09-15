@@ -61,7 +61,7 @@ function truthy(value: string | undefined): boolean {
 }
 
 function envProvider(): Vendor {
-  return process.env.BEENS_AGENT_PROVIDER?.trim().toLowerCase() === "cursor"
+  return process.env.ANCIENT_AGENT_PROVIDER?.trim().toLowerCase() === "cursor"
     ? "cursor"
     : "claude";
 }
@@ -173,7 +173,7 @@ export async function loadShopFile(): Promise<{
   }
   return {
     provider: asVendor(stored.provider) ?? envProvider(),
-    buyback: stored.buyback ?? truthy(process.env.BEENS_BUYBACK),
+    buyback: stored.buyback ?? truthy(process.env.ANCIENT_BUYBACK),
     claude,
   };
 }
@@ -281,7 +281,7 @@ export function beginCursorLogin(): { started: boolean; loginUrl: string | null 
   loginInFlight = (async () => {
     const { Cursor } = await import("@cursor/sdk");
     await Cursor.auth.login({
-      apiKeyName: "beens-agents Secret Shop",
+      apiKeyName: "the-ancient Secret Shop",
       onLoginUrl: (url: string) => {
         loginUrl = url;
       },

@@ -2,10 +2,14 @@
 # Tears down every agent worktree and branch. Run when a session goes sideways.
 set -euo pipefail
 set -a; source .env; set +a
-WORKTREE_ROOT="${WORKTREE_ROOT:-$BEENS_ROOT/.beens-agents}"
+: "${ANCIENT_ROOT:?set ANCIENT_ROOT in .env}"
+WORKTREE_ROOT="${WORKTREE_ROOT:-$ANCIENT_ROOT/.the-ancient}"
+API_DIR="${ANCIENT_API_DIR:-api}"
+APP_DIR="${ANCIENT_APP_DIR:-app}"
+ADMIN_DIR="${ANCIENT_ADMIN_DIR:-admin}"
 
-for repo in beens-api beens-app-ionic-react beens-admin-panel; do
-  dir="$BEENS_ROOT/$repo"
+for repo in "$API_DIR" "$APP_DIR" "$ADMIN_DIR"; do
+  dir="$ANCIENT_ROOT/$repo"
   [ -d "$dir/.git" ] || continue
   git -C "$dir" worktree list --porcelain | awk '/^worktree /{print $2}' \
     | grep "$WORKTREE_ROOT" || true \

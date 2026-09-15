@@ -53,9 +53,11 @@ cp .env.example .env
 
 Edit `.env`:
 
-- `BEENS_ROOT` — folder that contains the product repos
+- `ANCIENT_ROOT` — folder that contains the product repos
 - `WORKTREE_ROOT` — where worktrees and replays live (keep this outside the product checkouts)
 - `EVIDENCE_ROOT` — usually `$WORKTREE_ROOT/replays`
+- `ANCIENT_API_DIR` / `ANCIENT_APP_DIR` / `ANCIENT_ADMIN_DIR` — folder names under that root (defaults: `api`, `app`, `admin`)
+- `ANCIENT_API_GITHUB` / `ANCIENT_APP_GITHUB` / `ANCIENT_ADMIN_GITHUB` — `owner/name` for The Field
 
 Then:
 
@@ -70,10 +72,10 @@ cd ../../..
 
 ```
 NEXT_PUBLIC_API_URL=http://localhost:2024
-NEXT_PUBLIC_ASSISTANT_ID=beens
+NEXT_PUBLIC_ASSISTANT_ID=ancient
 ```
 
-`beens` is the graph id in `langgraph.json`. Leave it unless you rename the graph.
+`ancient` is the graph id in `langgraph.json`.
 
 ## Run
 
@@ -85,7 +87,7 @@ Two terminals.
 npx langgraphjs dev --port 2024 --no-browser
 ```
 
-It often binds to `http://[::1]:2024`. Graph id: `beens`.
+It often binds to `http://[::1]:2024`. Graph id: `ancient`.
 
 **HUD:**
 
@@ -97,7 +99,7 @@ npm run dev -- --port 3000
 
 Open [http://localhost:3000](http://localhost:3000).
 
-If the HUD asks for a deployment URL, use `http://localhost:2024` and assistant `beens`.
+If the HUD asks for a deployment URL, use `http://localhost:2024` and assistant `ancient`.
 
 ## How to play
 
@@ -109,7 +111,7 @@ If the HUD asks for a deployment URL, use `http://localhost:2024` and assistant 
 
 `/clear` stashes the current match. `/resume` restores the last one.
 
-PRs open as drafts until you set `BEENS_PR_DRAFT=0`.
+PRs open as drafts until you set `ANCIENT_PR_DRAFT=0`.
 
 When a run goes sideways:
 
@@ -124,10 +126,10 @@ Worktrees and `agent/*` branches are removed. Replays stay.
 | Stall | Who pays | How |
 |---|---|---|
 | Side shop | Claude Pro / Max | `claude login` (default) |
-| Side shop (Console) | Anthropic API | `BEENS_USE_API_KEY=1` plus a Console key in `.env` |
+| Side shop (Console) | Anthropic API | `ANCIENT_USE_API_KEY=1` plus a Console key in `.env` |
 | Secret Shop | Cursor plan | HUD → Open the ledger, or `CURSOR_API_KEY` in `.env` |
 
-Set `BEENS_AGENT_PROVIDER=cursor` to start on the Secret Shop. `BEENS_BUYBACK=1` retries a Claude session-limit on Cursor.
+Set `ANCIENT_AGENT_PROVIDER=cursor` to start on the Secret Shop. `ANCIENT_BUYBACK=1` retries a Claude session-limit on Cursor.
 
 ## Layout
 
@@ -143,7 +145,7 @@ your-root/
     oracle/
 ```
 
-Map those product folders in `src/config.ts`. Bootstrap excludes `.agent/` from each product git so scratch files cannot be committed.
+Map product folders with `ANCIENT_*_DIR` and GitHub names with `ANCIENT_*_GITHUB` in `.env`. Checks live in `src/config.ts`. Bootstrap excludes `.agent/` from each product git so scratch files cannot be committed.
 
 ## Adjusting it
 

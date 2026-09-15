@@ -192,7 +192,7 @@ export function ShopBoard() {
               <p className="font-console text-[12px] text-[#e8dcc4]">
                 {data?.cursor.ready
                   ? `Ledger is open${data.cursor.via === "env" ? " (environment)" : data.cursor.email ? ` · ${data.cursor.email}` : ""}.`
-                  : "No ledger. Open it in the browser, or set CURSOR_API_KEY in beens-agents/.env — do not paste the key here."}
+                  : "No ledger. Open it in the browser, or set CURSOR_API_KEY in .env — do not paste the key here."}
               </p>
               {data?.cursor.lastError && (
                 <p className="font-console text-[11px] text-[var(--dire)] break-words">

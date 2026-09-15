@@ -66,8 +66,8 @@ async function envLeftovers(agentsRoot: string): Promise<Leftover[]> {
         id: "env:missing-file",
         kind: "env",
         title: ".env is missing",
-        detail: "beens-agents has no .env. Copy .env.example and set BEENS_ROOT.",
-        action: "Copy beens-agents/.env.example to .env and fill BEENS_ROOT.",
+        detail: "The Ancient has no .env. Copy .env.example and set ANCIENT_ROOT.",
+        action: "Copy .env.example to .env and fill ANCIENT_ROOT.",
       },
     ];
   }
@@ -85,7 +85,7 @@ async function envLeftovers(agentsRoot: string): Promise<Leftover[]> {
         kind: "env",
         title: `${key} is not set`,
         detail: "Named only. The value was not read.",
-        action: `Set ${key} in beens-agents/.env (or comment it out of .env.example if unused).`,
+        action: `Set ${key} in .env (or comment it out of .env.example if unused).`,
       });
     }
   }
@@ -105,7 +105,7 @@ async function githubLeftovers(): Promise<Leftover[]> {
         ? "GH_TOKEN in the environment was rejected. The keyring login is unused while that variable is set."
         : "gh is not authenticated.",
       action: usesToken
-        ? "Comment GH_TOKEN out of beens-agents/.env and use `gh auth login`, or replace the token."
+        ? "Comment GH_TOKEN out of .env and use `gh auth login`, or replace the token."
         : "Run `gh auth login` on this machine.",
     },
   ];

@@ -55,7 +55,7 @@ function graphUrl(apiUrl: string): string {
 }
 
 export async function fetchField(apiUrl: string): Promise<FieldSnapshot> {
-  const res = await fetch(`${graphUrl(apiUrl)}/beens/field`);
+  const res = await fetch(`${graphUrl(apiUrl)}/ancient/field`);
   if (!res.ok) {
     throw new Error(`Field ${res.status}`);
   }
@@ -67,7 +67,7 @@ export async function consultField(
   opts: { force?: boolean } = {},
 ): Promise<FieldSnapshot> {
   const qs = opts.force ? "?force=1" : "";
-  const res = await fetch(`${graphUrl(apiUrl)}/beens/field/counsel${qs}`, {
+  const res = await fetch(`${graphUrl(apiUrl)}/ancient/field/counsel${qs}`, {
     method: "POST",
   });
   if (!res.ok) {
@@ -81,7 +81,7 @@ export function issueDecreeText(issue: FieldIssue): string {
   return (
     `GitHub ${issue.fullName}#${issue.number}: ${issue.title}\n` +
     `${issue.url}${body}\n\n` +
-    `Implement this issue in the matching Beens repo (${issue.repo}). ` +
+    `Implement this issue in the matching product repo (${issue.repo}). ` +
     `Do not expand scope past the issue.`
   );
 }

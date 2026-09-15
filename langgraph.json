@@ -1,7 +1,7 @@
 {
   "node_version": "20",
   "graphs": {
-    "beens": "./src/graph.ts:graph"
+    "ancient": "./src/graph.ts:graph"
   },
   "env": ".env",
   "http": {

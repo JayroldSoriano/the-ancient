@@ -1,4 +1,4 @@
-const KEY = "beens:console:cleared";
+const KEY = "ancient:console:cleared";
 const MAX = 12;
 
 export type ClearedSession = {

@@ -27,7 +27,7 @@ function graphUrl(apiUrl: string): string {
 }
 
 export async function fetchShop(apiUrl: string): Promise<ShopSnapshot> {
-  const res = await fetch(`${graphUrl(apiUrl)}/beens/shop`);
+  const res = await fetch(`${graphUrl(apiUrl)}/ancient/shop`);
   if (!res.ok) throw new Error(`Shop ${res.status}`);
   return (await res.json()) as ShopSnapshot;
 }
@@ -36,7 +36,7 @@ export async function patchShop(
   apiUrl: string,
   body: { provider?: Vendor; buyback?: boolean },
 ): Promise<ShopSnapshot> {
-  const res = await fetch(`${graphUrl(apiUrl)}/beens/shop`, {
+  const res = await fetch(`${graphUrl(apiUrl)}/ancient/shop`, {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify(body),
@@ -47,7 +47,7 @@ export async function patchShop(
 }
 
 export async function loginShop(apiUrl: string): Promise<ShopSnapshot> {
-  const res = await fetch(`${graphUrl(apiUrl)}/beens/shop/login`, {
+  const res = await fetch(`${graphUrl(apiUrl)}/ancient/shop/login`, {
     method: "POST",
   });
   if (!res.ok) throw new Error(`Shop login ${res.status}`);
@@ -55,7 +55,7 @@ export async function loginShop(apiUrl: string): Promise<ShopSnapshot> {
 }
 
 export async function logoutShop(apiUrl: string): Promise<ShopSnapshot> {
-  const res = await fetch(`${graphUrl(apiUrl)}/beens/shop/logout`, {
+  const res = await fetch(`${graphUrl(apiUrl)}/ancient/shop/logout`, {
     method: "POST",
   });
   if (!res.ok) throw new Error(`Shop logout ${res.status}`);

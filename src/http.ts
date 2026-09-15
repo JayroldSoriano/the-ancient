@@ -14,12 +14,12 @@ const AGENTS_ROOT = process.cwd();
 
 export const app = new Hono();
 
-app.get("/beens/field", async (c) => {
+app.get("/ancient/field", async (c) => {
   const snapshot = await gatherField(AGENTS_ROOT);
   return c.json(snapshot);
 });
 
-app.post("/beens/field/counsel", async (c) => {
+app.post("/ancient/field/counsel", async (c) => {
   const force = c.req.query("force") === "1";
   const snapshot = await gatherField(AGENTS_ROOT);
   if (snapshot.counsel && !force) {
@@ -48,11 +48,11 @@ app.post("/beens/field/counsel", async (c) => {
   }
 });
 
-app.get("/beens/shop", async (c) => {
+app.get("/ancient/shop", async (c) => {
   return c.json(await shopSnapshot());
 });
 
-app.post("/beens/shop", async (c) => {
+app.post("/ancient/shop", async (c) => {
   let body: { provider?: string; buyback?: boolean } = {};
   try {
     body = (await c.req.json()) as typeof body;
@@ -73,11 +73,11 @@ app.post("/beens/shop", async (c) => {
   }
 });
 
-app.post("/beens/shop/login", async (c) => {
+app.post("/ancient/shop/login", async (c) => {
   const started = beginCursorLogin();
   return c.json({ ...(await shopSnapshot()), ...started });
 });
 
-app.post("/beens/shop/logout", async (c) => {
+app.post("/ancient/shop/logout", async (c) => {
   return c.json(await logoutCursor());
 });

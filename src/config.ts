@@ -10,13 +10,20 @@ export interface RepoConfig {
   checks: { name: string; cmd: string; required: boolean }[];
 }
 
-const ROOT = process.env.BEENS_ROOT ?? path.resolve(process.cwd(), "..");
+function envOr(name: string, fallback: string): string {
+  const v = process.env[name]?.trim();
+  return v ? v : fallback;
+}
+
+const ROOT = envOr("ANCIENT_ROOT", path.resolve(process.cwd(), ".."));
+const BASE = envOr("ANCIENT_BASE_BRANCH", "main");
+const OWNER = envOr("ANCIENT_GH_OWNER", "your-org");
 
 export const REPOS: Record<RepoKey, RepoConfig> = {
   api: {
     key: "api",
-    dir: path.join(ROOT, "beens-api"),
-    baseBranch: "uat",
+    dir: path.join(ROOT, envOr("ANCIENT_API_DIR", "api")),
+    baseBranch: BASE,
     checks: [
       { name: "install", cmd: "bun install --frozen-lockfile", required: true },
       { name: "typecheck", cmd: "bun run tsc --noEmit", required: true },
@@ -26,8 +33,8 @@ export const REPOS: Record<RepoKey, RepoConfig> = {
   },
   app: {
     key: "app",
-    dir: path.join(ROOT, "beens-app-ionic-react"),
-    baseBranch: "uat",
+    dir: path.join(ROOT, envOr("ANCIENT_APP_DIR", "app")),
+    baseBranch: BASE,
     checks: [
       { name: "install", cmd: "npm ci", required: true },
       { name: "typecheck", cmd: "npx tsc --noEmit", required: true },
@@ -38,8 +45,8 @@ export const REPOS: Record<RepoKey, RepoConfig> = {
   },
   admin: {
     key: "admin",
-    dir: path.join(ROOT, "beens-admin-panel"),
-    baseBranch: "uat",
+    dir: path.join(ROOT, envOr("ANCIENT_ADMIN_DIR", "admin")),
+    baseBranch: BASE,
     checks: [
       { name: "install", cmd: "npm ci", required: true },
       { name: "typecheck", cmd: "npx tsc --noEmit", required: true },
@@ -49,7 +56,7 @@ export const REPOS: Record<RepoKey, RepoConfig> = {
 };
 
 export const WORKTREE_ROOT =
-  process.env.WORKTREE_ROOT ?? path.join(ROOT, ".beens-agents");
+  process.env.WORKTREE_ROOT ?? path.join(ROOT, ".the-ancient");
 export const EVIDENCE_ROOT =
   process.env.EVIDENCE_ROOT ?? path.join(WORKTREE_ROOT, "replays");
 export const ORACLE_DIR = path.join(WORKTREE_ROOT, "oracle");
@@ -58,10 +65,10 @@ export const CURSOR_STORE = path.join(WORKTREE_ROOT, "cursor-store");
 export const MAX_REVIEW_ROUNDS = Number(process.env.MAX_REVIEW_ROUNDS ?? 3);
 
 /** GitHub owner for the three product repos. Issues are listed, never mutated, from here. */
-export const GH_OWNER = process.env.BEENS_GH_OWNER ?? "Beens-App";
+export const GH_OWNER = OWNER;
 
 export const GH_REPOS: Record<RepoKey, string> = {
-  api: `${GH_OWNER}/beens-api`,
-  app: `${GH_OWNER}/beens-app-ionic-react`,
-  admin: `${GH_OWNER}/beens-admin-panel`,
+  api: envOr("ANCIENT_API_GITHUB", `${OWNER}/api`),
+  app: envOr("ANCIENT_APP_GITHUB", `${OWNER}/app`),
+  admin: envOr("ANCIENT_ADMIN_GITHUB", `${OWNER}/admin`),
 };
