@@ -1,0 +1,10 @@
+{
+  "node_version": "20",
+  "graphs": {
+    "beens": "./src/graph.ts:graph"
+  },
+  "env": ".env",
+  "http": {
+    "app": "./src/http.ts:app"
+  }
+}

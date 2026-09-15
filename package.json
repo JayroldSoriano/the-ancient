@@ -1,0 +1,26 @@
+{
+  "name": "beens-agents",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "langgraphjs dev --port 2024",
+    "ui": "npx create-agent-chat-app@latest --project-name ui",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "^0.3",
+    "@cursor/sdk": "^1.0.31",
+    "@langchain/anthropic": "^1",
+    "@langchain/core": "^1",
+    "@langchain/langgraph": "^1",
+    "@langchain/langgraph-checkpoint-postgres": "^1",
+    "hono": "^4.13.7",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@langchain/langgraph-cli": "^0.0.60",
+    "@types/node": "^22",
+    "typescript": "^5.6"
+  }
+}
