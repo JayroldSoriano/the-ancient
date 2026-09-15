@@ -26,8 +26,8 @@ const plex = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "The Ancient — Beens Console",
-  description: "War-room console for the Beens agent roster.",
+  title: "The Ancient",
+  description: "Dota 2–themed war-room for a LangGraph coding pipeline. Created by Jayrold Christian Soriano.",
 };
 
 export default function RootLayout({
