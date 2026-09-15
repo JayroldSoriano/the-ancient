@@ -7,6 +7,9 @@ import {
   consultField,
   fetchField,
   issueDecreeText,
+  mergeFieldCache,
+  readFieldCache,
+  writeFieldCache,
   type CounselPick,
   type FieldIssue,
   type FieldSnapshot,
@@ -143,8 +146,8 @@ export function FieldBoard({
 }) {
   const [apiUrl] = useQueryState("apiUrl");
   const graph = apiUrl || process.env.NEXT_PUBLIC_API_URL || "http://localhost:2024";
-  const [data, setData] = useState<FieldSnapshot | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<FieldSnapshot | null>(() => readFieldCache());
+  const [loading, setLoading] = useState(() => !readFieldCache());
   const [consulting, setConsulting] = useState(false);
   const [repoFilter, setRepoFilter] = useState<RepoKey | "all">("all");
   const [query, setQuery] = useState("");
@@ -152,20 +155,7 @@ export function FieldBoard({
   const load = useCallback(async () => {
     setLoading(true);
     try {
-      const snapshot = await fetchField(graph);
-      setData(snapshot);
-      if (!snapshot.counsel) {
-        setConsulting(true);
-        try {
-          setData(await consultField(graph));
-        } catch (err) {
-          toast.error("Oracle could not settle.", {
-            description: err instanceof Error ? err.message : String(err),
-          });
-        } finally {
-          setConsulting(false);
-        }
-      }
+      setData(mergeFieldCache(await fetchField(graph)));
     } catch (err) {
       toast.error("The Field would not open.", {
         description:
@@ -179,13 +169,15 @@ export function FieldBoard({
   }, [graph]);
 
   useEffect(() => {
+    if (readFieldCache()) return;
     void load();
-  }, [load]);
+  }, [graph, load]);
 
   const refreshCounsel = async () => {
     setConsulting(true);
     try {
-      setData(await consultField(graph, { force: true }));
+      const force = Boolean(readFieldCache()?.counsel);
+      setData(writeFieldCache(await consultField(graph, { force })));
     } catch (err) {
       toast.error("Oracle could not settle.", {
         description: err instanceof Error ? err.message : String(err),

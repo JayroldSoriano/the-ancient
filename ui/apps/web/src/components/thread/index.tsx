@@ -36,7 +36,7 @@ import { patchShop } from "@/lib/shop";
 import { useHud } from "@/providers/Hud";
 import { useNodeTrack } from "@/providers/node-track";
 import { STREAM_SUBMIT } from "@/lib/stream-opts";
-import { fetchField, type Leftover } from "@/lib/field";
+import { fetchField, mergeFieldCache, readFieldCache, type Leftover } from "@/lib/field";
 import {
   peekCleared,
   popCleared,
@@ -114,11 +114,23 @@ export function Thread() {
   }, []);
 
   useEffect(() => {
-    const graph = apiUrl || process.env.NEXT_PUBLIC_API_URL || "http://localhost:2024";
+    const cached = readFieldCache();
+    if (cached) {
+      setLeftovers(
+        cached.counsel?.reminders?.length
+          ? cached.counsel.reminders
+          : cached.leftovers,
+      );
+      return;
+    }
+    const graph =
+      apiUrl || process.env.NEXT_PUBLIC_API_URL || "http://localhost:2024";
     fetchField(graph)
-      .then((snap) => setLeftovers(snap.leftovers))
+      .then((snap) => {
+        setLeftovers(mergeFieldCache(snap).leftovers);
+      })
       .catch(() => {});
-  }, [apiUrl, threadId]);
+  }, [apiUrl]);
 
   useEffect(() => {
     if (!stream.error) {

@@ -50,6 +50,40 @@ export type FieldSnapshot = {
   reused?: boolean;
 };
 
+const FIELD_CACHE_KEY = "ancient:field:snapshot";
+
+export function readFieldCache(): FieldSnapshot | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.localStorage.getItem(FIELD_CACHE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as FieldSnapshot;
+    if (!parsed || !Array.isArray(parsed.issues)) return null;
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
+export function writeFieldCache(snap: FieldSnapshot): FieldSnapshot {
+  if (typeof window === "undefined") return snap;
+  try {
+    window.localStorage.setItem(FIELD_CACHE_KEY, JSON.stringify(snap));
+  } catch {
+    /* quota */
+  }
+  return snap;
+}
+
+/** Keep last Oracle speech when a cheap GET has no counsel. Never invent counsel. */
+export function mergeFieldCache(snap: FieldSnapshot): FieldSnapshot {
+  const prev = readFieldCache();
+  return writeFieldCache({
+    ...snap,
+    counsel: snap.counsel ?? prev?.counsel ?? null,
+  });
+}
+
 function graphUrl(apiUrl: string): string {
   return apiUrl.replace(/\/$/, "");
 }
